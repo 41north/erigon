@@ -42,4 +42,10 @@ type HttpCfg struct {
 	GRPCHealthCheckEnabled  bool
 	StarknetGRPCAddress     string
 	JWTSecretPath           string // Engine API Authentication
+	KubeMQServerEnabled     bool
+	KubeMQHost              string
+	KubeMQPort              int
+	KubeMQClientId          string
+	KubeMQGroup             string
+	KubeMQChannel           string
 }

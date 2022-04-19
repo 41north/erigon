@@ -91,6 +91,12 @@ func RootCommand() (*cobra.Command, *httpcfg.HttpCfg) {
 	rootCmd.PersistentFlags().BoolVar(&cfg.GRPCHealthCheckEnabled, "grpc.healthcheck", false, "Enable GRPC health check")
 	rootCmd.PersistentFlags().StringVar(&cfg.StarknetGRPCAddress, "starknet.grpc.address", "127.0.0.1:6066", "Starknet GRPC address")
 	rootCmd.PersistentFlags().StringVar(&cfg.JWTSecretPath, utils.JWTSecretPath.Name, utils.JWTSecretPath.Value, "Token to ensure safe connection between CL and EL")
+	rootCmd.PersistentFlags().BoolVar(&cfg.KubeMQServerEnabled, "kubemq", false, "Enable KubeMQ server")
+	rootCmd.PersistentFlags().StringVar(&cfg.KubeMQHost, "kubemq.host", node.DefaultKubeMQHost, "KubeMQ server host address")
+	rootCmd.PersistentFlags().IntVar(&cfg.KubeMQPort, "kubemq.port", node.DefaultKubeMQPort, "KubeMQ server port address")
+	rootCmd.PersistentFlags().StringVar(&cfg.KubeMQClientId, "kubemq.clientId", node.DefaultKubeMQClientId, "KubeMQ server group")
+	rootCmd.PersistentFlags().StringVar(&cfg.KubeMQGroup, "kubemq.group", node.DefaultKubeMQGroup, "KubeMQ server group")
+	rootCmd.PersistentFlags().StringVar(&cfg.KubeMQChannel, "kubemq.channel", node.DefaultKubeMQChannel, "KubeMQ server channel")
 
 	if err := rootCmd.MarkPersistentFlagFilename("rpc.accessList", "json"); err != nil {
 		panic(err)
@@ -521,6 +527,12 @@ func StartRpcServer(ctx context.Context, cfg httpcfg.HttpCfg, rpcAPI []rpc.API) 
 	}
 
 	log.Info("HTTP endpoint opened", info...)
+
+	if cfg.KubeMQServerEnabled {
+
+		go srv.ServeKubeMQRequests(cfg.KubeMQHost, cfg.KubeMQPort, cfg.KubeMQClientId, cfg.KubeMQChannel, cfg.KubeMQGroup)
+		log.Info("KubeMQ server started")
+	}
 
 	defer func() {
 		srv.Stop()

@@ -31,6 +31,11 @@ const (
 	DefaultWSPort         = 8546        // Default TCP port for the websocket RPC server
 	DefaultGRPCHost       = "localhost" // Default host interface for the GRPC server
 	DefaultGRPCPort       = 8547        // Default TCP port for the GRPC server
+	DefaultKubeMQHost     = "localhost"
+	DefaultKubeMQPort     = 50000
+	DefaultKubeMQClientId = "erigon"
+	DefaultKubeMQChannel  = "erigon"
+	DefaultKubeMQGroup    = ""
 )
 
 // DefaultConfig contains reasonable default settings.

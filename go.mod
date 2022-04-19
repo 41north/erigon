@@ -41,6 +41,7 @@ require (
 	github.com/json-iterator/go v1.1.12
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/kevinburke/go-bindata v3.21.0+incompatible
+	github.com/kubemq-io/kubemq-go v1.7.6
 	github.com/ledgerwatch/erigon-lib v0.0.0-20220418023534-87a7a2124418
 	github.com/ledgerwatch/log/v3 v3.4.1
 	github.com/ledgerwatch/secp256k1 v1.0.0
